@@ -25,7 +25,7 @@ function validateSupabaseUrl(url: string): boolean {
 }
 
 function validateApiKey(key: string): boolean {
-  return key && key.length >= 20;
+  return Boolean(key && key.length >= 20);
 }
 
 function updateMCPConfig(): void {

@@ -9,7 +9,7 @@ import type { Session, Transaction, Unit, SessionUnit } from '../types';
 
 export class SupabaseDataAccess implements DataAccessLayer {
   async findSessionByTrackingId(trackingId: string, nodeId?: string): Promise<Session | null> {
-    let query = supabase
+    let query: any = supabase
       .from('sessions')
       .select('*')
       .eq('tracking_identifier', trackingId) // Industry-agnostic column name
@@ -32,7 +32,7 @@ export class SupabaseDataAccess implements DataAccessLayer {
   }
 
   async createSession(session: Partial<Session>): Promise<Session> {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase
       .from('sessions')
       .insert({
         node_id: session.nodeId,
@@ -40,9 +40,9 @@ export class SupabaseDataAccess implements DataAccessLayer {
         state: session.state || 'IDLE',
         transaction_id: session.transactionId, // Industry-agnostic column
         category: session.category, // Industry-agnostic column
-      })
+      } as any)
       .select()
-      .single();
+      .single());
 
     if (error) throw error;
 
@@ -50,7 +50,7 @@ export class SupabaseDataAccess implements DataAccessLayer {
   }
 
   async updateSession(sessionId: string, updates: Partial<Session>): Promise<Session> {
-    const updateData: any = {
+    const updateData: Record<string, any> = {
       updated_at: new Date().toISOString(),
     };
 
@@ -60,12 +60,12 @@ export class SupabaseDataAccess implements DataAccessLayer {
     if (updates.category) updateData.category = updates.category;
     if (updates.completedAt) updateData.completed_at = updates.completedAt;
 
-    const { data, error } = await supabase
-      .from('sessions')
+    const { data, error } = await ((supabase
+      .from('sessions') as any)
       .update(updateData)
       .eq('id', sessionId)
       .select()
-      .single();
+      .single());
 
     if (error) throw error;
 
@@ -134,15 +134,15 @@ export class SupabaseDataAccess implements DataAccessLayer {
   }
 
   async createSessionUnit(sessionUnit: Partial<SessionUnit>): Promise<SessionUnit> {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase
       .from('session_units') // Industry-agnostic table name
       .insert({
         session_id: sessionUnit.sessionId,
         unit_id: sessionUnit.unitId, // Industry-agnostic column
         scanned_at: sessionUnit.scannedAt || new Date().toISOString(),
-      })
+      } as any)
       .select()
-      .single();
+      .single());
 
     if (error) throw error;
 
