@@ -61,7 +61,7 @@ export default function ScannerFace({
   }
 
   return (
-    <div className="min-h-screen bg-background text-white p-8">
+    <div className="min-h-screen text-white p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <h1 className="text-6xl font-bold mb-8 text-center text-safety-orange">
@@ -69,7 +69,7 @@ export default function ScannerFace({
         </h1>
 
         {/* Node Selector */}
-        <div className="mb-8 p-6 bg-gray-900 rounded-lg border-2 border-gray-800">
+        <div className="mb-8 p-6 glass-card rounded-lg">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-4">
               <label htmlFor="nodeSelect" className="text-4xl text-safety-lime">
@@ -106,12 +106,12 @@ export default function ScannerFace({
 
         {/* State-Specific Content */}
         {state.currentState === 'IDLE' && (
-          <div className="bg-gray-900 rounded-lg p-8 border-2 border-gray-800">
+          <div className="glass-card rounded-lg p-8">
             <h2 className="text-5xl mb-6 text-center text-safety-orange">
               START SESSION
             </h2>
             <form onSubmit={(e) => handleSubmit(e, (data) => onScanAction(data))} className="space-y-6">
-              <div>
+              <div className="hud-input-wrapper">
                 <label htmlFor="trackingId" className="block text-4xl mb-4 text-white">
                   Tracking Identifier:
                 </label>
@@ -122,7 +122,7 @@ export default function ScannerFace({
                   autoFocus
                   inputMode="none"
                   disabled={state.isLoading}
-                  className="input-industrial w-full bg-gray-800 border-2 border-gray-700 text-white focus:border-safety-orange focus:outline-none disabled:opacity-50"
+                  className="input-industrial w-full bg-gray-800 bg-opacity-50 border-2 border-gray-700 text-white focus:border-safety-orange focus:outline-none disabled:opacity-50"
                   placeholder="Scan tracking identifier"
                 />
               </div>
@@ -143,7 +143,7 @@ export default function ScannerFace({
         )}
 
         {state.currentState === 'VALIDATION' && (
-          <div className="bg-gray-900 rounded-lg p-8 border-2 border-gray-800">
+          <div className="glass-card rounded-lg p-8">
             <div className="mb-6 space-y-4">
               <p className="text-4xl text-safety-lime">
                 Tracking ID: <span className="text-white">{state.session?.trackingIdentifier}</span>
@@ -153,20 +153,22 @@ export default function ScannerFace({
               SCAN TRANSACTION
             </h2>
             <form onSubmit={(e) => handleSubmit(e, (data) => onScanAction(data))} className="space-y-6">
-              <div>
+              <div className="hud-input-wrapper">
                 <label htmlFor="transactionId" className="block text-4xl mb-4 text-white">
                   Transaction ID:
                 </label>
-                <input
-                  type="text"
-                  id="transactionId"
-                  name="scanInput"
-                  autoFocus
-                  inputMode="none"
-                  disabled={state.isLoading}
-                  className="input-industrial w-full bg-gray-800 border-2 border-gray-700 text-white focus:border-safety-orange focus:outline-none disabled:opacity-50"
-                  placeholder="Scan transaction barcode"
-                />
+                <div className={`relative ${state.isLoading ? 'heartbeat-glow' : ''}`}>
+                  <input
+                    type="text"
+                    id="transactionId"
+                    name="scanInput"
+                    autoFocus
+                    inputMode="none"
+                    disabled={state.isLoading}
+                    className="input-industrial w-full bg-gray-800 bg-opacity-50 border-2 border-gray-700 text-white focus:border-safety-orange focus:outline-none disabled:opacity-50"
+                    placeholder="Scan transaction barcode"
+                  />
+                </div>
               </div>
               {state.error && (
                 <div className="bg-red-900 border-2 border-red-700 rounded-lg p-4">
@@ -185,20 +187,20 @@ export default function ScannerFace({
         )}
 
         {state.currentState === 'VERIFICATION' && (
-          <div className="bg-gray-900 rounded-lg p-8 border-2 border-gray-800">
+          <div className="glass-card rounded-lg p-8">
             <div className="mb-6 space-y-4">
               <p className="text-4xl text-safety-lime">
                 Tracking ID: <span className="text-white">{state.session?.trackingIdentifier}</span>
               </p>
               <p className="text-4xl text-safety-lime">
-                Transaction: <span className="text-white">{state.session?.transactionId || 'N/A'}</span>
+                Transaction: <span className={`text-white ${state.isLoading ? 'heartbeat-glow' : ''}`}>{state.session?.transactionId || 'N/A'}</span>
               </p>
             </div>
             <h2 className="text-5xl mb-6 text-center text-safety-orange">
               ENTER CATEGORY
             </h2>
             <form onSubmit={(e) => handleSubmit(e, (data) => onScanAction(data))} className="space-y-6">
-              <div>
+              <div className="hud-input-wrapper">
                 <label htmlFor="category" className="block text-4xl mb-4 text-white">
                   Category:
                 </label>
@@ -209,7 +211,7 @@ export default function ScannerFace({
                   autoFocus
                   inputMode="none"
                   disabled={state.isLoading}
-                  className="input-industrial w-full bg-gray-800 border-2 border-gray-700 text-white focus:border-safety-orange focus:outline-none disabled:opacity-50"
+                  className="input-industrial w-full bg-gray-800 bg-opacity-50 border-2 border-gray-700 text-white focus:border-safety-orange focus:outline-none disabled:opacity-50"
                   placeholder="Enter or scan category"
                 />
               </div>
@@ -230,13 +232,13 @@ export default function ScannerFace({
         )}
 
         {state.currentState === 'PROCESSING' && (
-          <div className="bg-gray-900 rounded-lg p-8 border-2 border-gray-800">
+          <div className="glass-card rounded-lg p-8">
             <div className="mb-6 space-y-4">
               <p className="text-4xl text-safety-lime">
                 Tracking ID: <span className="text-white">{state.session?.trackingIdentifier}</span>
               </p>
               <p className="text-4xl text-safety-lime">
-                Transaction: <span className="text-white">{state.session?.transactionId || 'N/A'}</span>
+                Transaction: <span className={`text-white ${state.isLoading ? 'heartbeat-glow' : ''}`}>{state.session?.transactionId || 'N/A'}</span>
               </p>
               <p className="text-4xl text-safety-lime">
                 Category: <span className="text-white">{state.session?.category || 'N/A'}</span>
@@ -251,7 +253,7 @@ export default function ScannerFace({
               </p>
             </div>
             <form onSubmit={(e) => handleSubmit(e, (data) => onScanAction(data))} className="space-y-6">
-              <div>
+              <div className="hud-input-wrapper">
                 <label htmlFor="unitCode" className="block text-4xl mb-4 text-white">
                   Unit Code:
                 </label>
@@ -262,7 +264,7 @@ export default function ScannerFace({
                   autoFocus
                   inputMode="none"
                   disabled={state.isLoading}
-                  className="input-industrial w-full bg-gray-800 border-2 border-gray-700 text-white focus:border-safety-orange focus:outline-none disabled:opacity-50"
+                  className="input-industrial w-full bg-gray-800 bg-opacity-50 border-2 border-gray-700 text-white focus:border-safety-orange focus:outline-none disabled:opacity-50"
                   placeholder="Scan unit barcode"
                 />
               </div>
@@ -293,7 +295,7 @@ export default function ScannerFace({
         )}
 
         {state.currentState === 'COMPLETE' && (
-          <div className="bg-gray-900 rounded-lg p-8 border-2 border-terminal-green">
+          <div className="glass-card rounded-lg p-8 border-2 border-terminal-green terminal-glow">
             <h1 className="text-6xl font-bold mb-8 text-center text-terminal-green">
               SESSION COMPLETE
             </h1>
@@ -309,7 +311,7 @@ export default function ScannerFace({
                   Category: <span className="text-white">{state.session?.category || 'N/A'}</span>
                 </p>
               </div>
-              <div className="bg-terminal-green bg-opacity-20 border-2 border-terminal-green rounded-lg p-6 text-center">
+              <div className="bg-terminal-green bg-opacity-20 border-2 border-terminal-green rounded-lg p-6 text-center terminal-glow">
                 <p className="text-6xl text-terminal-green font-bold">
                   SUCCESS
                 </p>
