@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* PILLAR IV: Industrial Dark Theme */
+body {
+  background-color: #050505;
+  color: #ffffff;
+}
+
+/* 5-Foot Visibility Base Styles */
+@layer base {
+  html {
+    font-size: 16px; /* Base for rem calculations */
+  }
+  
+  /* Ensure minimum text sizes for industrial visibility */
+  .text-industrial-base {
+    font-size: 2.25rem; /* 36px - text-4xl minimum */
+    line-height: 1.2;
+  }
+  
+  .text-industrial-large {
+    font-size: 3rem; /* 48px - text-5xl */
+    line-height: 1.2;
+  }
+  
+  .text-industrial-huge {
+    font-size: 3.75rem; /* 60px - text-6xl */
+    line-height: 1.2;
+  }
+}
+
+/* Glove-Friendly Touch Targets */
+@layer components {
+  .btn-industrial {
+    min-height: 48px;
+    min-width: 120px;
+    padding: 1rem 2rem;
+    font-size: 2.25rem; /* text-4xl */
+    font-weight: bold;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .btn-industrial:active {
+    transform: scale(0.98);
+  }
+  
+  .input-industrial {
+    min-height: 64px;
+    font-size: 2.25rem; /* text-4xl */
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+  }
+  
+  .input-industrial:focus {
+    outline: 3px solid #FF8C00; /* Safety Orange focus ring */
+    outline-offset: 2px;
+  }
+}
+
+/* Color Utilities */
+@layer utilities {
+  .bg-industrial-dark {
+    background-color: #050505;
+  }
+  
+  .text-safety-orange {
+    color: #FF8C00;
+  }
+  
+  .bg-safety-orange {
+    background-color: #FF8C00;
+  }
+  
+  .text-safety-lime {
+    color: #CCFF00;
+  }
+  
+  .bg-safety-lime {
+    background-color: #CCFF00;
+  }
+  
+  .text-terminal-green {
+    color: #00FF41;
+  }
+  
+  .bg-terminal-green {
+    background-color: #00FF41;
+  }
+}
