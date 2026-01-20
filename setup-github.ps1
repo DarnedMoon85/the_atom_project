@@ -68,7 +68,7 @@ elseif ($authMethod -eq "B" -or $authMethod -eq "b") {
         Write-Host "No SSH key found. Generating one..." -ForegroundColor Yellow
         Write-Host ""
         Write-Host "Generating SSH key..." -ForegroundColor Cyan
-        ssh-keygen -t ed25519 -C "your-email@example.com" -f "$env:USERPROFILE\.ssh\id_ed25519" -N '""'
+        ssh-keygen -t ed25519 -C "darnedmoon85@gmail.com" -f "$env:USERPROFILE\.ssh\id_ed25519" -N '""'
         
         if (Test-Path "$env:USERPROFILE\.ssh\id_ed25519.pub") {
             Write-Host ""

@@ -38,7 +38,7 @@ git push --set-upstream origin main
 
 2. If no key exists, generate one:
    ```bash
-   ssh-keygen -t ed25519 -C "your-email@example.com"
+   ssh-keygen -t ed25519 -C "darnedmoon85@gmail.com"
    # Press Enter to accept default location
    # Optionally set a passphrase
    ```

@@ -148,7 +148,7 @@ elseif ($authChoice -eq "B" -or $authChoice -eq "b") {
         }
         
         Write-Host "Generating SSH key (press Enter for default location, optionally set passphrase)..." -ForegroundColor Cyan
-        ssh-keygen -t ed25519 -C "your-email@example.com" -f "$env:USERPROFILE\.ssh\id_ed25519"
+        ssh-keygen -t ed25519 -C "darnedmoon85@gmail.com" -f "$env:USERPROFILE\.ssh\id_ed25519"
         
         if (Test-Path "$env:USERPROFILE\.ssh\id_ed25519.pub") {
             Write-Host ""
