@@ -2,10 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* PILLAR IV: Industrial Dark Theme */
+/* PILLAR IV: Abstract Industrial Futurism Theme */
 body {
-  background-color: #050505;
+  background: radial-gradient(circle at center, #0a0a0a 0%, #050505 100%);
   color: #ffffff;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Industrial Mesh Pattern SVG */
+.industrial-mesh {
+  position: relative;
+}
+
+.industrial-mesh::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23CCFF00' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.4;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* 5-Foot Visibility Base Styles */
@@ -31,8 +51,68 @@ body {
   }
 }
 
-/* Glove-Friendly Touch Targets */
+/* Abstract Industrial Futurism Components */
 @layer components {
+  /* Glassmorphism Cards */
+  .glass-card {
+    background: rgba(17, 17, 17, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+  
+  /* Sticky Banners */
+  .sticky-banner {
+    position: sticky;
+    z-index: 50;
+    background: rgba(5, 5, 5, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .sticky-banner-bottom {
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+    background: rgba(5, 5, 5, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* HUD Corner Brackets */
+  .hud-input-wrapper {
+    position: relative;
+  }
+  
+  .hud-input-wrapper::before,
+  .hud-input-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #CCFF00;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .hud-input-wrapper::before {
+    top: -2px;
+    left: -2px;
+    border-right: none;
+    border-bottom: none;
+  }
+  
+  .hud-input-wrapper::after {
+    bottom: -2px;
+    right: -2px;
+    border-left: none;
+    border-top: none;
+  }
+  
+  /* Glove-Friendly Touch Targets */
   .btn-industrial {
     min-height: 48px;
     min-width: 120px;
@@ -61,12 +141,54 @@ body {
   }
 }
 
-/* Color Utilities */
+/* Abstract Industrial Futurism Animations */
 @layer utilities {
+  /* Heartbeat Glow Animation for Processing State */
+  @keyframes heartbeat-glow {
+    0%, 100% {
+      box-shadow: 0 0 10px rgba(204, 255, 0, 0.3),
+                  0 0 20px rgba(204, 255, 0, 0.2),
+                  0 0 30px rgba(204, 255, 0, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(204, 255, 0, 0.6),
+                  0 0 40px rgba(204, 255, 0, 0.4),
+                  0 0 60px rgba(204, 255, 0, 0.2);
+    }
+  }
+  
+  .heartbeat-glow {
+    animation: heartbeat-glow 2s ease-in-out infinite;
+  }
+  
+  /* Terminal Green Fade-In for Complete State */
+  @keyframes terminal-glow-fade-in {
+    0% {
+      opacity: 0;
+      box-shadow: 0 0 0px rgba(0, 255, 65, 0);
+    }
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.5),
+                  0 0 40px rgba(0, 255, 65, 0.3),
+                  0 0 60px rgba(0, 255, 65, 0.1);
+    }
+  }
+  
+  .terminal-glow {
+    animation: terminal-glow-fade-in 0.8s ease-out forwards;
+  }
+  
+  /* Background Utilities */
   .bg-industrial-dark {
     background-color: #050505;
   }
   
+  .bg-radial-gradient {
+    background: radial-gradient(circle at center, #0a0a0a 0%, #050505 100%);
+  }
+  
+  /* Color Utilities */
   .text-safety-orange {
     color: #FF8C00;
   }
