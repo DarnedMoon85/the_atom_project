@@ -10,7 +10,7 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "update-mcp": "ts-node scripts/update-mcp-config.ts"
+    "update-mcp": "ts-node --esm --transpile-only scripts/update-mcp-config.ts"
   },
   "repository": {
     "type": "git",

@@ -7,6 +7,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { homedir } from 'os';
+import { fileURLToPath } from 'url';
 
 const MCP_PATH = path.join(homedir(), '.cursor', 'mcp.json');
 
@@ -48,8 +49,20 @@ function updateMCPConfig(): void {
     process.exit(1);
   }
 
-  // Read current mcp.json
-  let content = fs.readFileSync(MCP_PATH, 'utf-8');
+  // Read and parse current mcp.json
+  let config: MCPConfig;
+  try {
+    const content = fs.readFileSync(MCP_PATH, 'utf-8');
+    config = JSON.parse(content);
+  } catch (error) {
+    // If file doesn't exist or is invalid, create new config
+    config = { mcpServers: {} };
+  }
+
+  // Ensure mcpServers exists
+  if (!config.mcpServers) {
+    config.mcpServers = {};
+  }
 
   // Extract project reference from Supabase URL for PostgreSQL connection
   const urlMatch = supabaseUrl.match(/https:\/\/([^.]+)\.supabase\.co/);
@@ -72,40 +85,35 @@ function updateMCPConfig(): void {
     console.warn('You can get the database password from Supabase Dashboard > Settings > Database');
   }
 
-  // Uncomment and update postgres server
-  content = content.replace(
-    /\/\*\s*SOVEREIGN_PENDING: Supabase\/Postgres Integration[\s\S]*?"PENDING_CONNECTION_STRING"[\s\S]*?\}\s*,?\s*\*\//,
-    `"postgres": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-postgres",
-        "${postgresConnectionString}"
-      ]
-    },`
-  );
+  // Add postgres server
+  config.mcpServers.postgres = {
+    command: 'npx',
+    args: [
+      '-y',
+      '@modelcontextprotocol/server-postgres',
+      postgresConnectionString
+    ]
+  };
 
-  // Uncomment sequential-thinking server
-  content = content.replace(
-    /\/\*\s*SOVEREIGN_PENDING: Sequential Thinking[\s\S]*?"sequential-thinking":\s*\{[\s\S]*?\}\s*,?\s*\*\//,
-    `"sequential-thinking": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ]
-    },`
-  );
+  // Add sequential-thinking server
+  config.mcpServers['sequential-thinking'] = {
+    command: 'npx',
+    args: [
+      '-y',
+      '@modelcontextprotocol/server-sequential-thinking'
+    ]
+  };
 
-  // Write updated config
-  fs.writeFileSync(MCP_PATH, content, 'utf-8');
+  // Write updated config as formatted JSON
+  fs.writeFileSync(MCP_PATH, JSON.stringify(config, null, 2) + '\n', 'utf-8');
   console.log('✓ MCP configuration updated successfully');
   console.log('✓ PostgreSQL MCP server activated');
   console.log('✓ Sequential Thinking MCP server activated');
 }
 
-// Run if called directly
-if (require.main === module) {
+// Run if called directly (ES module equivalent of require.main === module)
+const __filename = fileURLToPath(import.meta.url);
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
   updateMCPConfig();
 }
 
